@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  install:
+  test:
     name: Rust ${{matrix.rust}} on ${{matrix.os == 'ubuntu' && 'Linux' || matrix.os == 'macos' && 'macOS' || matrix.os == 'windows' && 'Windows' || 'unknown'}}
     runs-on: ${{matrix.os}}-latest
     strategy:
@@ -36,28 +36,6 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-
-      - name: Run action for ${{matrix.rust}}
-        id: toolchain
-        uses: ./
+      - uses: ./test.yml
         with:
           toolchain: ${{matrix.rust}}
-
-      - name: echo ${{'${{steps.toolchain.outputs.cachekey}}'}}
-        run: echo '${{steps.toolchain.outputs.cachekey}}'
-
-      - name: check ${{'${{steps.toolchain.outputs.cachekey}}'}}
-        if: matrix.rust == '1.62.0'
-        run: cmp -s <(echo ${{steps.toolchain.outputs.cachekey}}) <(echo 20220627a831)
-        shell: bash
-
-      - run: rustc --version
-
-      - run: cargo init . --bin --name CI
-        if: matrix.rust == 'nightly' || matrix.rust == 'beta' || matrix.rust == 'stable'
-
-      - run: cargo add syn@1
-        if: matrix.rust == 'nightly' || matrix.rust == 'beta' || matrix.rust == 'stable'
-
-      - run: cargo check
-        if: matrix.rust == 'nightly' || matrix.rust == 'beta' || matrix.rust == 'stable'
