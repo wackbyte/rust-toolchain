@@ -76,7 +76,7 @@ outputs:
   name:
     description: |
       rustup's name for the selected version of the toolchain.
-      Suitable for use with `cargo +toolchain` shorthand.
+      Suitable for use with the `cargo +toolchain` shorthand.
 
       Example value: `1.62.0`
     value: ${{steps.parse.outputs.toolchain}}
