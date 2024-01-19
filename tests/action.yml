@@ -1,0 +1,35 @@
+name: Test
+description: Run the test suite
+
+inputs:
+  toolchain:
+    description:
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Run action for ${{inputs.toolchain}}
+      id: toolchain
+      uses: ./
+      with:
+        toolchain: ${{inputs.toolchain}}
+
+    - name: echo ${{'${{steps.toolchain.outputs.cachekey}}'}}
+      run: echo '${{steps.toolchain.outputs.cachekey}}'
+
+    - name: check ${{'${{steps.toolchain.outputs.cachekey}}'}}
+      if: inputs.toolchain == '1.62.0'
+      run: cmp -s <(echo ${{steps.toolchain.outputs.cachekey}}) <(echo 20220627a831)
+      shell: bash
+
+    - run: rustc --version
+
+    - run: cargo init . --bin --name ci
+      if: inputs.toolchain == 'nightly' || inputs.toolchain == 'beta' || inputs.toolchain == 'stable'
+
+    - run: cargo add syn@1
+      if: inputs.toolchain == 'nightly' || inputs.toolchain == 'beta' || inputs.toolchain == 'stable'
+
+    - run: cargo check
+      if: inputs.toolchain == 'nightly' || inputs.toolchain == 'beta' || inputs.toolchain == 'stable'
