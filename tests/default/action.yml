@@ -1,0 +1,43 @@
+name: Default test
+description: Check that the default setting works and that the action may be run multiple times
+
+runs:
+  using: composite
+  steps:
+    - name: Install Rust 1.74.1 (without default)
+      id: toolchain-1-74-1
+      uses: ./
+      with:
+        toolchain: 1.74.1
+
+    - name: Install Rust 1.75.0 (with default)
+      id: toolchain-1-75-0
+      uses: ./
+      with:
+        toolchain: 1.75.0
+        default: true
+
+    - name: 1.74.1 cache key
+      run: echo '${{steps.toolchain-1-74-1.outputs.cachekey}}'
+      shell: bash
+
+    - name: 1.75.0 cache key
+      run: echo '${{steps.toolchain-1-75-0.outputs.cachekey}}'
+      shell: bash
+
+    - name: Default rustc version
+      run: rustc --version
+      shell: bash
+
+    - name: Check 1.74.1 cache key
+      run: cmp -s <(echo ${{steps.toolchain-1-74-1.outputs.cachekey}}) <(echo PLACEHOLDER)
+      shell: bash
+
+    - name: Check 1.75.0 cache key
+      run: cmp -s <(echo ${{steps.toolchain-1-75-0.outputs.cachekey}}) <(echo PLACEHOLDER)
+      shell: bash
+
+    - name: Check default rustc version
+      run: cmp -s <(rustc --version) <(echo PLACEHOLDER)
+      shell: bash
+

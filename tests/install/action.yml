@@ -1,33 +1,34 @@
-name: Test
-description: Run the test suite
+name: Install test
+description: Check that the action works
 
 inputs:
   toolchain:
-    description:
+    description: Rust toolchain name
     required: true
 
 runs:
   using: composite
   steps:
-    - name: Run action for ${{inputs.toolchain}}
+    - name: Install Rust ${{inputs.toolchain}}
       id: toolchain
       uses: ./
       with:
         toolchain: ${{inputs.toolchain}}
 
-    - name: echo ${{'${{steps.toolchain.outputs.cachekey}}'}}
+    - name: Cache key
       run: echo '${{steps.toolchain.outputs.cachekey}}'
       shell: bash
 
-    - name: check ${{'${{steps.toolchain.outputs.cachekey}}'}}
+    - name: Check cache key
       if: inputs.toolchain == '1.62.0'
       run: cmp -s <(echo ${{steps.toolchain.outputs.cachekey}}) <(echo 20220627a831)
       shell: bash
 
-    - run: rustc --version
+    - name: rustc version
+      run: rustc --version
       shell: bash
 
-    - run: cargo init . --bin --name ci
+    - run: cargo init . --bin --name test
       if: inputs.toolchain == 'nightly' || inputs.toolchain == 'beta' || inputs.toolchain == 'stable'
       shell: bash
 

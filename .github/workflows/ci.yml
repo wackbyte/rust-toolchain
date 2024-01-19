@@ -13,8 +13,8 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: Rust ${{matrix.rust}} on ${{matrix.os == 'ubuntu' && 'Linux' || matrix.os == 'macos' && 'macOS' || matrix.os == 'windows' && 'Windows' || 'unknown'}}
+  test-install:
+    name: Install test for Rust ${{matrix.rust}} on ${{matrix.os == 'ubuntu' && 'Linux' || matrix.os == 'macos' && 'macOS' || matrix.os == 'windows' && 'Windows' || 'unknown'}}
     runs-on: ${{matrix.os}}-latest
     strategy:
       fail-fast: false
@@ -37,7 +37,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run tests
-        uses: ./tests
+      - name: Run test
+        uses: ./tests/install
         with:
           toolchain: ${{matrix.rust}}
+
+  test-default:
+    name: Default test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run test
+        uses: ./tests/default
+
+  test-override:
+    name: Override test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run test
+        uses: ./tests/override
