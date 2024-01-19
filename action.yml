@@ -28,12 +28,12 @@ inputs:
   default:
     description: |
       Set this toolchain as default.
-      Equivalent to running `rustup default ${{steps.toolchain.outputs.name}}`.
+      Equivalent to running `rustup default ${{'${{steps.toolchain.outputs.name}}'}}`.
     required: false
   override:
     description: |
       Set this toolchain as an override for this directory.
-      Equivalent to running `rustup override set ${{steps.toolchain.outputs.name}}`.
+      Equivalent to running `rustup override set ${{'${{steps.toolchain.outputs.name}}'}}`.
       This is helpful if a `rustup-toolchain.toml` or `rustup-toolchain` file is present in the directory and you would like to use this toolchain instead.
     required: false
 
@@ -46,7 +46,7 @@ outputs:
   name:
     description: |
       rustup's name for the selected version of the toolchain e.g. `1.62.0`.
-      Suitable for use with `cargo +${{steps.toolchain.outputs.name}}`.
+      Suitable for use with `cargo +${{'${{steps.toolchain.outputs.name}}'}}`.
     value: ${{steps.parse.outputs.toolchain}}
 
 runs:
