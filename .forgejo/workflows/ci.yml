@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - trunk
+  pull_request:
+  workflow_dispatch:
+  #schedule:
+  #  - cron: '0 8 * * 0'
+
+permissions:
+  contents: read
+
+jobs:
+  test-install:
+    name: Install test for Rust ${{matrix.rust}}
+    runs-on: docker
+    container:
+      image: ubuntu:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rust:
+          - nightly
+          - beta
+          - stable
+          - 1.62.0
+          - stable 18 months ago
+          - stable minus 8 releases
+          - 1.0.0
+    timeout-minutes: 45
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v4
+
+      - name: Run test
+        uses: ./tests/install
+        with:
+          toolchain: ${{matrix.rust}}
+
+  test-default:
+    name: Default test
+    runs-on: docker
+    container:
+      image: ubuntu:latest
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v4
+
+      - name: Run test
+        uses: ./tests/default
+
+  test-override:
+    name: Override test
+    runs-on: docker
+    container:
+      image: ubuntu:latest
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v4
+
+      - name: Run test
+        uses: ./tests/override
