@@ -51,40 +51,96 @@ jobs:
 <table>
 <tr>
   <th>Name</th>
-  <th>Default value</th>
   <th>Description</th>
+  <th>Default value</th>
 </tr>
 <tr>
   <td><code>toolchain</code></td>
+  <td>
+
+  rustup toolchain name.
+  It is recommended to use quotes in order to avoid versions being parsed as floating-point numbers.
+
+  Example values:
+  - `stable`
+  - `nightly`
+  - `1.42.0`
+  - `nightly-2022-01-01`
+
+  ([documentation][toolchain-doc])
+  </td>
   <td>(required)</td>
-  <td>rustup toolchain name e.g. <code>stable</code>, <code>nightly</code>, <code>1.42.0</code>, <code>nightly-2022-01-01</code>&mdash;see <a href="https://rust-lang.github.io/rustup/concepts/toolchains.html#toolchain-specification" target="_blank">the documentation</a>. <strong>Consider putting the value between quotes to avoid it being parsed as a floating-point number.</strong></td>
 </tr>
 <tr>
   <td><code>targets</code></td>
-  <td><code>''</code></td>
-  <td>Comma-separated list of target triples to be additionally installed for this toolchain e.g. <code>wasm32-unknown-unknown</code>.</td>
+  <td>
+
+  Comma-separated list of target triples to be additionally installed for this toolchain.
+
+  Example value: `wasm32-unknown-unknown`
+
+  ([documentation][targets-doc])
+  </td>
+  <td>(empty)</td>
 </tr>
 <tr>
   <td><code>components</code></td>
-  <td><code>''</code></td>
-  <td>Comma-separated list of components to be additionally installed for this toolchain e.g. <code>clippy, rustfmt</code>.</td>
+  <td>
+  
+  Comma-separated list of components to be additionally installed for this toolchain.
+
+  Example value: `clippy, rustfmt`
+
+  ([documentation][components-doc])
+  </td>
+  <td>(empty)</td>
 </tr>
 <tr>
   <td><code>profile</code></td>
-  <td><code>'minimal'</code></td>
-  <td>Group of components to install for this toolchain e.g. <code>minimal</code>, <code>default</code>, <code>complete</code>. Additional components can be installed with <code>components</code>.</td>
+  <td>
+  
+  Group of components to install for this toolchain.
+
+  Available values:
+  - `minimal`
+  - `default`
+  - `complete`
+
+  ([documentation][profile-doc])
+  </td>
+  <td><code>minimal</code></td>
 </tr>
 <tr>
   <td><code>default</code></td>
+  <td>
+
+  Set this toolchain as default.
+  Equivalent to running `rustup default` with this toolchain.
+
+  ([documentation][default-doc])
+  </td>
   <td><code>false</code></td>
-  <td>Set this toolchain as default. Equivalent to running <code>rustup default ${{steps.toolchain.outputs.name}}</code>.</td>
 </tr>
 <tr>
   <td><code>override</code></td>
+  <td>
+
+  Set this toolchain as an override for this directory.
+  Equivalent to running `rustup override set` with this toolchain.
+  This is helpful if a `rustup-toolchain.toml` or `rustup-toolchain` file is present in the directory and you would like to use this toolchain instead.
+
+  ([documentation][override-doc])
+  </td>
   <td><code>false</code></td>
-  <td>Set this toolchain as an override for this directory. Equivalent to running <code>rustup override set ${{steps.toolchain.outputs.name}}</code>. This is helpful if a <code>rustup-toolchain.toml</code> or <code>rustup-toolchain</code> file is present in the directory and you would like to use this toolchain instead.</td>
 </tr>
 </table>
+
+[toolchain-doc]: https://rust-lang.github.io/rustup/concepts/toolchains.html#toolchain-specification
+[targets-doc]: https://doc.rust-lang.org/rustc/platform-support.html
+[components-doc]: https://rust-lang.github.io/rustup/concepts/components.html
+[profile-doc]: https://rust-lang.github.io/rustup/concepts/profiles.html
+[default-doc]: https://rust-lang.github.io/rustup/overrides.html#default-toolchain
+[override-doc]: https://rust-lang.github.io/rustup/overrides.html
 
 ## Outputs
 
@@ -95,11 +151,23 @@ jobs:
 </tr>
 <tr>
   <td><code>cachekey</code></td>
-  <td>A short hash of the installed rustc version e.g. <code>20220627a831</code>. Appropriate for use as a cache key.</td>
+  <td>
+
+  A short hash of the installed rustc version.
+  Appropriate for use as a cache key.
+
+  Example value: `20220627a831`
+  </td>
 </tr>
 <tr>
   <td><code>name</code></td>
-  <td>rustup's name for the selected version of the toolchain e.g. <code>1.62.0</code>. Suitable for use with <code>cargo +${{steps.toolchain.outputs.name}}</code>.</td>
+  <td>
+
+  rustup's name for the selected version of the toolchain.
+  Suitable for use with the `cargo +toolchain` shorthand.
+
+  Example value: `1.62.0`
+  </td>
 </tr>
 </table>
 
