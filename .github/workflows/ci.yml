@@ -36,6 +36,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - uses: ./tests
+
+      - name: Run tests
+        uses: ./tests
         with:
           toolchain: ${{matrix.rust}}
