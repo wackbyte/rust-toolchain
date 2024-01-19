@@ -9,7 +9,9 @@ Gitea and Forgejo Actions.
 
 [dtolnay/rust-toolchain]: https://github.com/dtolnay/rust-toolchain
 
-## Remotes
+## Available remotes
+
+This repository is mirrored on several hosts.
 
 - [Codeberg](https://codeberg.org/wackbyte/rust-toolchain) (Primary)
 - [GitHub](https://github.com/wackbyte/rust-toolchain) (Mirror)
