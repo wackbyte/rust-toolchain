@@ -9,6 +9,7 @@ inputs:
   toolchain:
     description: |
       rustup toolchain name.
+      It is recommended to use quotes in order to avoid versions being parsed as floating-point numbers.
 
       Example values:
       - `stable`
