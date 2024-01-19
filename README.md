@@ -16,10 +16,13 @@ until the first version releases.
 
 This repository is mirrored on a few different remotes:
 
-- [Codeberg](https://codeberg.org/wackbyte/rust-toolchain) (Primary)
-- [GitHub](https://github.com/wackbyte/rust-toolchain) (Secondary)
+- [Codeberg] (Primary)
+- [GitHub] (Secondary)
 
 Please only submit issues and pull requests on Codeberg.
+
+[Codeberg]: https://codeberg.org/wackbyte/rust-toolchain
+[GitHub]: https://github.com/wackbyte/rust-toolchain
 
 ## Example workflow
 
