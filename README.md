@@ -1,61 +1,75 @@
 # Install Rust Toolchain
 
-This GitHub Action installs a Rust toolchain using rustup. It is designed for
-one-line concise usage and good defaults.
+This GitHub Action installs a Rust toolchain using rustup. It is designed to be
+easy to use with good defaults.
 
-<br>
+It is a fork of [dtolnay/rust-toolchain] with a greater focus on stability and
+ease of use at the cost of one-line usage. It also intends to expressly support
+Gitea and Forgejo Actions.
+
+[dtolnay/rust-toolchain]: https://github.com/dtolnay/rust-toolchain
 
 ## Example workflow
 
 ```yaml
 name: test suite
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   test:
     name: cargo test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: https://code.forgejo.org/actions/checkout@v4
+
+      - uses: https://codeberg.org/wackbyte/rust-toolchain@trunk
+        with:
+          toolchain: stable
+
       - run: cargo test --all-features
 ```
 
-The selection of Rust toolchain is made based on the particular @rev of this
-Action being requested. For example "dtolnay/rust-toolchain@nightly" pulls in
-the nightly Rust toolchain, while "dtolnay/rust-toolchain@1.42.0" pulls in
-1.42.0.
-
-<br>
-
 ## Inputs
-
-All inputs are optional.
 
 <table>
 <tr>
   <th>Name</th>
+  <th>Default value</th>
   <th>Description</th>
 </tr>
 <tr>
   <td><code>toolchain</code></td>
-  <td>
-    Rustup toolchain specifier e.g. <code>stable</code>, <code>nightly</code>, <code>1.42.0</code>, <code>nightly-2022-01-01</code>.
-    <b>Important: the default is to match the @rev as described above.</b>
-    When passing an explicit <code>toolchain</code> as an input instead of @rev, you'll want to use "dtolnay/rust-toolchain@master" as the revision of the action.
-  </td>
+  <td>(required)</td>
+  <td>rustup toolchain name e.g. <code>stable</code>, <code>nightly</code>, <code>1.42.0</code>, <code>nightly-2022-01-01</code>&mdash;see <a href="https://rust-lang.github.io/rustup/concepts/toolchains.html#toolchain-specification" target="_blank">the documentation</a>. <strong>Consider putting the value between quotes to avoid it being parsed as a floating-point number.</strong></td>
 </tr>
 <tr>
   <td><code>targets</code></td>
-  <td>Comma-separated string of additional targets to install e.g. <code>wasm32-unknown-unknown</code></td>
+  <td><code>''</code></td>
+  <td>Comma-separated list of target triples to be additionally installed for this toolchain e.g. <code>wasm32-unknown-unknown</code>.</td>
 </tr>
 <tr>
   <td><code>components</code></td>
-  <td>Comma-separated string of additional components to install e.g. <code>clippy, rustfmt</code></td>
+  <td><code>''</code></td>
+  <td>Comma-separated list of components to be additionally installed for this toolchain e.g. <code>clippy, rustfmt</code>.</td>
+</tr>
+<tr>
+  <td><code>profile</code></td>
+  <td><code>'minimal'</code></td>
+  <td>Group of components to install for this toolchain e.g. <code>minimal</code>, <code>default</code>, <code>complete</code>. Additional components can be installed with <code>components</code>.</td>
+</tr>
+<tr>
+  <td><code>default</code></td>
+  <td><code>false</code></td>
+  <td>Set this toolchain as default. Equivalent to running <code>rustup default ${{steps.toolchain.outputs.name}}</code>.</td>
+</tr>
+<tr>
+  <td><code>override</code></td>
+  <td><code>false</code></td>
+  <td>Set this toolchain as an override for this directory. Equivalent to running <code>rustup override set ${{steps.toolchain.outputs.name}}</code>. This is helpful if a <code>rustup-toolchain.toml</code> or <code>rustup-toolchain</code> file is present in the directory and you would like to use this toolchain instead.</td>
 </tr>
 </table>
-
-<br>
 
 ## Outputs
 
@@ -66,15 +80,13 @@ All inputs are optional.
 </tr>
 <tr>
   <td><code>cachekey</code></td>
-  <td>A short hash of the installed rustc version, appropriate for use as a cache key. <code>"20220627a831"</code></td>
+  <td>A short hash of the installed rustc version e.g. <code>20220627a831</code>. Appropriate for use as a cache key.</td>
 </tr>
 <tr>
   <td><code>name</code></td>
-  <td>Rustup's name for the selected version of the toolchain, like <code>"1.62.0"</code>. Suitable for use with <code>cargo +${{steps.toolchain.outputs.name}}</code>.</td>
+  <td>rustup's name for the selected version of the toolchain e.g. <code>1.62.0</code>. Suitable for use with <code>cargo +${{steps.toolchain.outputs.name}}</code>.</td>
 </tr>
 </table>
-
-<br>
 
 ## Toolchain expressions
 
@@ -82,22 +94,20 @@ The following forms are available for projects that use a sliding window of
 compiler support.
 
 ```yaml
-     # Installs the most recent stable toolchain as of the specified time
-     # offset, which may be written in years, months, weeks, or days.
-  - uses: dtolnay/rust-toolchain@master
-    with:
-      toolchain: stable 18 months ago
+# Installs the most recent stable toolchain as of the specified time offset,
+# which may be written in years, months, weeks, or days.
+- uses: https://codeberg.org/wackbyte/rust-toolchain@trunk
+  with:
+    toolchain: stable 18 months ago
 ```
 
 ```yaml
-     # Installs the stable toolchain which preceded the most recent one by
-     # the specified number of minor versions.
-  - uses: dtolnay/rust-toolchain@master
-    with:
-      toolchain: stable minus 8 releases
+# Installs the stable toolchain which preceded the most recent one by the
+# specified number of minor versions.
+- uses: https://codeberg.org/wackbyte/rust-toolchain@trunk
+  with:
+    toolchain: stable minus 8 releases
 ```
-
-<br>
 
 ## License
 

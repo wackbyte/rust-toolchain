@@ -1,30 +1,52 @@
 name: rustup toolchain install
-author: David Tolnay
+author: wackbyte
 description: Install the Rust toolchain
 branding:
-  icon: activity
-  color: purple
+  icon: settings
+  color: red
 
 inputs:
   toolchain:
-    description: Rust toolchain specification -- see https://rust-lang.github.io/rustup/concepts/toolchains.html#toolchain-specification
+    description: |
+      rustup toolchain name e.g. `stable`, `nightly`, `1.42.0`, `nightly-2022-01-01`--see [the documentation](https://rust-lang.github.io/rustup/concepts/toolchains.html#toolchain-specification).
+      **Consider putting the value between quotes to avoid it being parsed as a floating-point number.**
     required: true
   targets:
-    description: Comma-separated list of target triples to install for this toolchain
-    required: false
-  target:
-    description: Alias for `targets`
+    description: |
+      Comma-separated list of target triples to be additionally installed for this toolchain e.g. `wasm32-unknown-unknown`.
     required: false
   components:
-    description: Comma-separated list of components to be additionally installed
+    description: |
+      Comma-separated list of components to be additionally installed for this toolchain e.g. `clippy, rustfmt`.
+    required: false
+  profile:
+    description: |
+      Group of components to install for this toolchain e.g. `minimal`, `default`, `complete`.
+      Additional components can be installed with `components`.
+      The default is `minimal`.
+    required: false
+  default:
+    description: |
+      Set this toolchain as default.
+      Equivalent to running `rustup default ${{steps.toolchain.outputs.name}}`.
+    required: false
+  override:
+    description: |
+      Set this toolchain as an override for this directory.
+      Equivalent to running `rustup override set ${{steps.toolchain.outputs.name}}`.
+      This is helpful if a `rustup-toolchain.toml` or `rustup-toolchain` file is present in the directory and you would like to use this toolchain instead.
     required: false
 
 outputs:
   cachekey:
-    description: A short hash of the rustc version, appropriate for use as a cache key. "20220627a831"
+    description: |
+      A short hash of the installed rustc version e.g. `20220627a831`.
+      Appropriate for use as a cache key.
     value: ${{steps.rustc-version.outputs.cachekey}}
   name:
-    description: Rustup's name for the selected version of the toolchain. "1.62.0"  # suitable for use with `cargo +${{steps.toolchain.outputs.name}}`
+    description: |
+      rustup's name for the selected version of the toolchain e.g. `1.62.0`.
+      Suitable for use with `cargo +${{steps.toolchain.outputs.name}}`.
     value: ${{steps.parse.outputs.toolchain}}
 
 runs:
@@ -53,9 +75,10 @@ runs:
         : construct rustup command line
         echo "targets=$(for t in ${targets//,/ }; do echo -n ' --target' $t; done)" >> $GITHUB_OUTPUT
         echo "components=$(for c in ${components//,/ }; do echo -n ' --component' $c; done)" >> $GITHUB_OUTPUT
+        echo "profile=${{inputs.profile || 'minimal'}}" >> $GITHUB_OUTPUT
         echo "downgrade=${{inputs.toolchain == 'nightly' && inputs.components && ' --allow-downgrade' || ''}}" >> $GITHUB_OUTPUT
       env:
-        targets: ${{inputs.targets || inputs.target || ''}}
+        targets: ${{inputs.targets || ''}}
         components: ${{inputs.components}}
       shell: bash
 
@@ -69,10 +92,15 @@ runs:
       shell: bash
 
     - name: rustup toolchain install ${{steps.parse.outputs.toolchain}}
-      run: rustup toolchain install ${{steps.parse.outputs.toolchain}}${{steps.flags.outputs.targets}}${{steps.flags.outputs.components}} --profile minimal${{steps.flags.outputs.downgrade}} --no-self-update
+      run: rustup toolchain install ${{steps.parse.outputs.toolchain}}${{steps.flags.outputs.targets}}${{steps.flags.outputs.components}}${{steps.flags.outputs.profile}}${{steps.flags.outputs.downgrade}} --no-self-update
       shell: bash
 
     - run: rustup default ${{steps.parse.outputs.toolchain}}
+      if: inputs.default
+      shell: bash
+
+    - run: rustup override set ${{steps.parse.outputs.toolchain}}
+      if: inputs.override
       shell: bash
 
     - id: rustc-version
