@@ -22,9 +22,9 @@ jobs:
     name: cargo test
     runs-on: ubuntu-latest
     steps:
-      - uses: https://code.forgejo.org/actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - uses: https://codeberg.org/wackbyte/rust-toolchain@trunk
+      - uses: wackbyte/rust-toolchain@trunk
         with:
           toolchain: stable
 
@@ -96,7 +96,7 @@ compiler support.
 ```yaml
 # Installs the most recent stable toolchain as of the specified time offset,
 # which may be written in years, months, weeks, or days.
-- uses: https://codeberg.org/wackbyte/rust-toolchain@trunk
+- uses: wackbyte/rust-toolchain@trunk
   with:
     toolchain: stable 18 months ago
 ```
@@ -104,7 +104,7 @@ compiler support.
 ```yaml
 # Installs the stable toolchain which preceded the most recent one by the
 # specified number of minor versions.
-- uses: https://codeberg.org/wackbyte/rust-toolchain@trunk
+- uses: wackbyte/rust-toolchain@trunk
   with:
     toolchain: stable minus 8 releases
 ```
