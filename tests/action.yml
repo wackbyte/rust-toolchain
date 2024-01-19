@@ -17,6 +17,7 @@ runs:
 
     - name: echo ${{'${{steps.toolchain.outputs.cachekey}}'}}
       run: echo '${{steps.toolchain.outputs.cachekey}}'
+      shell: bash
 
     - name: check ${{'${{steps.toolchain.outputs.cachekey}}'}}
       if: inputs.toolchain == '1.62.0'
@@ -24,12 +25,16 @@ runs:
       shell: bash
 
     - run: rustc --version
+      shell: bash
 
     - run: cargo init . --bin --name ci
       if: inputs.toolchain == 'nightly' || inputs.toolchain == 'beta' || inputs.toolchain == 'stable'
+      shell: bash
 
     - run: cargo add syn@1
       if: inputs.toolchain == 'nightly' || inputs.toolchain == 'beta' || inputs.toolchain == 'stable'
+      shell: bash
 
     - run: cargo check
       if: inputs.toolchain == 'nightly' || inputs.toolchain == 'beta' || inputs.toolchain == 'stable'
+      shell: bash
