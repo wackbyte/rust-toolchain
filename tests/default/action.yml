@@ -30,14 +30,13 @@ runs:
       shell: bash
 
     - name: Check 1.74.1 cache key
-      run: cmp -s <(echo ${{steps.toolchain-1-74-1.outputs.cachekey}}) <(echo PLACEHOLDER)
+      run: cmp -s <(echo ${{steps.toolchain-1-74-1.outputs.cachekey}}) <(echo 20231204a280)
       shell: bash
 
     - name: Check 1.75.0 cache key
-      run: cmp -s <(echo ${{steps.toolchain-1-75-0.outputs.cachekey}}) <(echo PLACEHOLDER)
+      run: cmp -s <(echo ${{steps.toolchain-1-75-0.outputs.cachekey}}) <(echo 2023122182e1)
       shell: bash
 
     - name: Check default rustc version
-      run: cmp -s <(rustc --version) <(echo PLACEHOLDER)
+      run: cmp -s <(rustc --version) <(echo 'rustc 1.75.0 (82e1608df 2023-12-21)')
       shell: bash
-
