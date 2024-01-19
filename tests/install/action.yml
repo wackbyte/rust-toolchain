@@ -28,7 +28,7 @@ runs:
       run: rustc --version
       shell: bash
 
-    - run: cargo init . --bin --name test
+    - run: cargo init . --bin --name ci
       if: inputs.toolchain == 'nightly' || inputs.toolchain == 'beta' || inputs.toolchain == 'stable'
       shell: bash
 

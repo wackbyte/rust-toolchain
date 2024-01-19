@@ -21,7 +21,7 @@ runs:
         echo "version=$(rustc --version)" >> $GITHUB_OUTPUT
       shell: bash
 
-    - run: cargo init . --bin --name test
+    - run: cargo init . --bin --name ci
       shell: bash
 
     - run: echo '1.70.0' > rust-toolchain
