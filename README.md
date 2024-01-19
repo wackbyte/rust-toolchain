@@ -11,10 +11,10 @@ Gitea and Forgejo Actions.
 
 ## Available remotes
 
-This repository is mirrored on several hosts.
+This repository is mirrored on a few different remotes:
 
 - [Codeberg](https://codeberg.org/wackbyte/rust-toolchain) (Primary)
-- [GitHub](https://github.com/wackbyte/rust-toolchain) (Mirror)
+- [GitHub](https://github.com/wackbyte/rust-toolchain) (Secondary)
 
 Please only submit issues and pull requests on Codeberg.
 
