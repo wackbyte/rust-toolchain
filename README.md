@@ -16,6 +16,8 @@ This repository is mirrored on several hosts.
 - [Codeberg](https://codeberg.org/wackbyte/rust-toolchain) (Primary)
 - [GitHub](https://github.com/wackbyte/rust-toolchain) (Mirror)
 
+Please only submit issues and pull requests on Codeberg.
+
 ## Example workflow
 
 ```yaml
