@@ -8,45 +8,76 @@ branding:
 inputs:
   toolchain:
     description: |
-      rustup toolchain name e.g. `stable`, `nightly`, `1.42.0`, `nightly-2022-01-01`--see [the documentation](https://rust-lang.github.io/rustup/concepts/toolchains.html#toolchain-specification).
-      **Consider putting the value between quotes to avoid it being parsed as a floating-point number.**
+      rustup toolchain name.
+
+      Example values:
+      - `stable`
+      - `nightly`
+      - `1.42.0`
+      - `nightly-2022-01-01`
+
+      See the documentation: https://rust-lang.github.io/rustup/concepts/toolchains.html#toolchain-specification
     required: true
   targets:
     description: |
-      Comma-separated list of target triples to be additionally installed for this toolchain e.g. `wasm32-unknown-unknown`.
+      Comma-separated list of target triples to be additionally installed for this toolchain.
+
+      Example value: `wasm32-unknown-unknown`
+
+      See the documentation: https://doc.rust-lang.org/rustc/platform-support.html
     required: false
   components:
     description: |
-      Comma-separated list of components to be additionally installed for this toolchain e.g. `clippy, rustfmt`.
+      Comma-separated list of components to be additionally installed for this toolchain.
+
+      Example value: `clippy, rustfmt`
+
+      See the documentation: https://rust-lang.github.io/rustup/concepts/components.html
     required: false
   profile:
     description: |
-      Group of components to install for this toolchain e.g. `minimal`, `default`, `complete`.
-      Additional components can be installed with `components`.
-      The default is `minimal`.
+      Group of components to install for this toolchain.
+
+      Available values:
+      - `minimal`
+      - `default`
+      - `complete`
+
+      See the documentation: https://rust-lang.github.io/rustup/concepts/profiles.html
     required: false
+    default: minimal
   default:
     description: |
       Set this toolchain as default.
-      Equivalent to running `rustup default <toolchain>`.
+      Equivalent to running `rustup default` with this toolchain.
+
+      See the documentation: https://rust-lang.github.io/rustup/overrides.html#default-toolchain
     required: false
+    default: false
   override:
     description: |
       Set this toolchain as an override for this directory.
-      Equivalent to running `rustup override set <toolchain>`.
+      Equivalent to running `rustup override set` with this toolchain.
       This is helpful if a `rustup-toolchain.toml` or `rustup-toolchain` file is present in the directory and you would like to use this toolchain instead.
+
+      See the documentation: https://rust-lang.github.io/rustup/overrides.html
     required: false
+    default: false
 
 outputs:
   cachekey:
     description: |
-      A short hash of the installed rustc version e.g. `20220627a831`.
+      A short hash of the installed rustc version.
       Appropriate for use as a cache key.
+
+      Example value: `20220627a831`
     value: ${{steps.rustc-version.outputs.cachekey}}
   name:
     description: |
-      rustup's name for the selected version of the toolchain e.g. `1.62.0`.
-      Suitable for use with `cargo +<toolchain>`.
+      rustup's name for the selected version of the toolchain.
+      Suitable for use with `cargo +toolchain` shorthand.
+
+      Example value: `1.62.0`
     value: ${{steps.parse.outputs.toolchain}}
 
 runs:
@@ -75,7 +106,7 @@ runs:
         : construct rustup command line
         echo "targets=$(for t in ${targets//,/ }; do echo -n ' --target' $t; done)" >> $GITHUB_OUTPUT
         echo "components=$(for c in ${components//,/ }; do echo -n ' --component' $c; done)" >> $GITHUB_OUTPUT
-        echo "profile= --profile ${{inputs.profile || 'minimal'}}" >> $GITHUB_OUTPUT
+        echo "profile= --profile ${{inputs.profile}}" >> $GITHUB_OUTPUT
         echo "downgrade=${{inputs.toolchain == 'nightly' && inputs.components && ' --allow-downgrade' || ''}}" >> $GITHUB_OUTPUT
       env:
         targets: ${{inputs.targets || ''}}
