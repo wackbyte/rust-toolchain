@@ -24,14 +24,14 @@ Please only submit issues and pull requests on Codeberg.
 ## Example workflow
 
 ```yaml
-name: test suite
+name: Rust
 on:
   push:
   pull_request:
 
 jobs:
   test:
-    name: cargo test
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
