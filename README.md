@@ -9,6 +9,11 @@ Gitea and Forgejo Actions.
 
 [dtolnay/rust-toolchain]: https://github.com/dtolnay/rust-toolchain
 
+## Remotes
+
+- [Codeberg](https://codeberg.org/wackbyte/rust-toolchain) (Primary)
+- [GitHub](https://github.com/wackbyte/rust-toolchain) (Mirror)
+
 ## Example workflow
 
 ```yaml
