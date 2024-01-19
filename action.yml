@@ -1,6 +1,6 @@
 name: rustup toolchain install
 author: wackbyte
-description: Install the Rust toolchain
+description: Install a Rust toolchain
 branding:
   icon: settings
   color: red
