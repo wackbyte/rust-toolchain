@@ -16,9 +16,9 @@ runs:
       shell: bash
 
     - name: Stable rustc version
-      id: rustc
+      id: rustc-version
       run: |
-        echo "version=$(rustc --version)" >> $GITHUB_OUTPUT
+        echo "output=$(rustc --version)" >> $GITHUB_OUTPUT
       shell: bash
 
     - run: cargo init . --bin --name ci
@@ -28,5 +28,5 @@ runs:
       shell: bash
 
     - name: Check rustc version is overridden
-      run: cmp -s <(rustc --version) <(echo '${{steps.rustc.outputs.version}}')
+      run: cmp -s <(rustc --version) <(echo '${{steps.rustc-version.outputs.output}}')
       shell: bash
