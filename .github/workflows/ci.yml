@@ -59,3 +59,12 @@ jobs:
 
       - name: Run test
         uses: ./tests/override
+
+  test-profile:
+    name: Profile test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run test
+        uses: ./tests/profile
