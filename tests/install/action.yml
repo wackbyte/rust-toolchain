@@ -15,17 +15,13 @@ runs:
       with:
         toolchain: ${{inputs.toolchain}}
 
-    - name: Cache key
-      run: echo '${{steps.toolchain.outputs.cachekey}}'
+    - name: Default rustc version
+      run: rustc --version
       shell: bash
 
     - name: Check cache key
       if: inputs.toolchain == '1.62.0'
       run: cmp -s <(echo ${{steps.toolchain.outputs.cachekey}}) <(echo 20220627a831)
-      shell: bash
-
-    - name: rustc version
-      run: rustc --version
       shell: bash
 
     - run: cargo init . --bin --name ci

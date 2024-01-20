@@ -4,26 +4,18 @@ description: Check that the default setting works and that the action may be run
 runs:
   using: composite
   steps:
-    - name: Install Rust 1.74.1 (without default)
+    - name: Install Rust 1.74.1
       id: toolchain-1-74-1
       uses: ./
       with:
         toolchain: 1.74.1
 
-    - name: Install Rust 1.75.0 (with default)
+    - name: Install Rust 1.75.0 as default
       id: toolchain-1-75-0
       uses: ./
       with:
         toolchain: 1.75.0
         default: true
-
-    - name: 1.74.1 cache key
-      run: echo '${{steps.toolchain-1-74-1.outputs.cachekey}}'
-      shell: bash
-
-    - name: 1.75.0 cache key
-      run: echo '${{steps.toolchain-1-75-0.outputs.cachekey}}'
-      shell: bash
 
     - name: Default rustc version
       run: rustc --version

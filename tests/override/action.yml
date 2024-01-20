@@ -4,18 +4,14 @@ description: Check that the override setting works
 runs:
   using: composite
   steps:
-    - name: Install Rust stable
+    - name: Install Rust stable and override
       id: toolchain
       uses: ./
       with:
         toolchain: stable
         override: true
 
-    - name: Stable cache key
-      run: echo '${{steps.toolchain.outputs.cachekey}}'
-      shell: bash
-
-    - name: Stable rustc version
+    - name: Store default rustc version
       id: rustc-version
       run: |
         echo "output=$(rustc --version)" >> $GITHUB_OUTPUT
@@ -27,6 +23,6 @@ runs:
     - run: echo '1.70.0' > rust-toolchain
       shell: bash
 
-    - name: Check rustc version is overridden
+    - name: Check default rustc version is overridden
       run: cmp -s <(rustc --version) <(echo '${{steps.rustc-version.outputs.output}}')
       shell: bash
