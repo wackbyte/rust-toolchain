@@ -1,11 +1,11 @@
 # Install Rust Toolchain
 
-This GitHub Action installs a Rust toolchain using rustup. It is designed to be
-easy to use with good defaults.
+This Action installs a Rust toolchain using rustup. It is designed to be easy to
+use with good defaults.
 
 It is a fork of [dtolnay/rust-toolchain] with a greater focus on stability\* and
 ease of use at the cost of one-line usage. It also intends to expressly support
-Gitea and Forgejo Actions.
+all of GitHub, Gitea, and Forgejo Actions.
 
 \*The project is currently in an unstable development phase and will remain so
 until the first version releases.
