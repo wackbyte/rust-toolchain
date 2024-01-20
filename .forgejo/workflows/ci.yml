@@ -22,13 +22,13 @@ jobs:
       fail-fast: false
       matrix:
         rust:
-          - nightly
-          - beta
-          - stable
-          - 1.62.0
-          - stable 18 months ago
-          - stable minus 8 releases
           - 1.0.0
+          - 1.62.0
+          - stable
+          - beta
+          - nightly
+          - stable 18 months ago
+          - stable minus 8 releases          
     timeout-minutes: 45
     steps:
       - uses: https://code.forgejo.org/actions/checkout@v4
