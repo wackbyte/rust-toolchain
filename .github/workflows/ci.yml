@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   test-install:
-    name: Install test for Rust ${{matrix.rust}} on ${{matrix.os}}
+    name: Install test
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
