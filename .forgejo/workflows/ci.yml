@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   test-install:
-    name: Install test for Rust ${{matrix.rust}}
+    name: Install test
     runs-on: docker
     container:
       image: node:20-bullseye
