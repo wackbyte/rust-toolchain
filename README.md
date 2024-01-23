@@ -3,16 +3,15 @@
 This Action installs a Rust toolchain using rustup. It is designed to be easy to
 use with good defaults.
 
-It is a fork of [dtolnay/rust-toolchain] with a greater focus on stability\* and
-ease of use at the cost of one-line usage. It also intends to expressly support
-all of GitHub, Gitea, and Forgejo Actions.
+## Project information
 
-\*The project is currently in an unstable development phase and will remain so
-until the first version releases.
+This project is a fork of [dtolnay/rust-toolchain] with a greater focus on
+stability and ease of use at the cost of one-line usage. It intends to expressly
+support all of GitHub, Gitea, and Forgejo Actions.
 
 [dtolnay/rust-toolchain]: https://github.com/dtolnay/rust-toolchain
 
-## Available remotes
+### Available mirrors
 
 This repository is mirrored on a few different remotes:
 
