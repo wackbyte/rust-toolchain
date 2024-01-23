@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning].
 
 ### Added
 
-- `profile` determines which group of components is installed for the toolchain.
-- `default` sets the installed toolchain as default.
-- `override` sets the installed toolchain as the override for the current directory.
+- `profile` determines which group of components is installed for the toolchain (defaults to `minimal`).
+- `default` sets the installed toolchain as default (defaults to `false`).
+- `override` sets the installed toolchain as the override for the current directory (defaults to `false`).
 - More detailed documentation.
 
 ### Changed
