@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
+### Added
+
+- `profile` determines which group of components is installed for the toolchain.
+- `default` sets the installed toolchain as default.
+- `override` sets the installed toolchain as the override for the current directory.
+- More detailed documentation.
+
+### Changed
+
+- The installed toolchain is no longer set as default automatically. This is now controlled by `default`.
+
+### Removed
+
+- Rev-based toolchain version selection. This is now entirely controlled by `toolchain`.
+- `target` in favor of `targets`, which it was an alias of.
+
 [Unreleased]: https://codeberg.org/wackbyte/rust-toolchain/commits/branch/trunk
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
