@@ -99,6 +99,7 @@ jobs:
   <td>
   
   Group of components to install for this toolchain.
+  It is recommended to use `minimal` in CI so that the minimum number of components is installed.
 
   Available values:
   - `minimal`
